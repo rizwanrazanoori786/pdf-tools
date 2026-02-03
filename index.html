@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDFlayer PDF Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-grid"></div>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">PDF Generate Tools</p>
+      <h1>Front-end PDFlayer PDF Generator</h1>
+      <p class="subhead">
+        Convert URLs or raw HTML into polished PDFs using a secure PDFlayer proxy. Designed for quick demos,
+        client previews, and lightweight internal tools.
+      </p>
+    </div>
+    <div class="hero-badge">
+      <span>Free API</span>
+      <strong>100 PDFs / month</strong>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>API Access</h2>
+      <div class="notice">
+        <strong>Server-side key enabled</strong>
+        <p>Your PDFlayer access key is stored in <code>.env</code> on the server. No key is exposed in the browser.</p>
+      </div>
+
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="radio" name="mode" value="url" checked />
+          <span>Convert URL</span>
+        </label>
+        <label class="toggle">
+          <input type="radio" name="mode" value="html" />
+          <span>Convert HTML</span>
+        </label>
+      </div>
+
+      <div id="urlMode" class="mode-panel">
+        <label class="field">
+          <span>Document URL</span>
+          <input id="documentUrl" type="url" placeholder="https://example.com/invoice.html" />
+        </label>
+        <p class="help">Tip: make sure the URL includes https://</p>
+      </div>
+
+      <div id="htmlMode" class="mode-panel hidden">
+        <label class="field">
+          <span>Raw HTML</span>
+          <textarea id="documentHtml" rows="10" placeholder="<html>..."></textarea>
+        </label>
+        <div class="actions">
+          <button id="fillSample" class="ghost" type="button">Insert Sample HTML</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>PDF Options</h2>
+      <div class="two-col">
+        <label class="field">
+          <span>Document Name</span>
+          <input id="documentName" type="text" placeholder="my-document" />
+        </label>
+        <label class="field">
+          <span>Page Size</span>
+          <select id="pageSize">
+            <option value="A4" selected>A4</option>
+            <option value="A5">A5</option>
+            <option value="Letter">Letter</option>
+            <option value="Legal">Legal</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="two-col">
+        <label class="field">
+          <span>Orientation</span>
+          <select id="orientation">
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Open Inline</span>
+          <select id="inline">
+            <option value="1" selected>Inline (Preview)</option>
+            <option value="0">Attachment (Download)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="four-col">
+        <label class="field">
+          <span>Margin Top</span>
+          <input id="marginTop" type="number" placeholder="10" min="0" />
+        </label>
+        <label class="field">
+          <span>Margin Right</span>
+          <input id="marginRight" type="number" placeholder="10" min="0" />
+        </label>
+        <label class="field">
+          <span>Margin Bottom</span>
+          <input id="marginBottom" type="number" placeholder="10" min="0" />
+        </label>
+        <label class="field">
+          <span>Margin Left</span>
+          <input id="marginLeft" type="number" placeholder="10" min="0" />
+        </label>
+      </div>
+
+      <button id="generateBtn" class="primary" type="button">Generate PDF</button>
+      <p class="warn">
+        Note: this setup uses a local proxy server, so the PDFlayer access key stays hidden.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Header & Footer</h2>
+      <div class="two-col">
+        <label class="field">
+          <span>Header Text</span>
+          <input id="headerText" type="text" placeholder="Quarterly Report" />
+        </label>
+        <label class="field">
+          <span>Header Align</span>
+          <select id="headerAlign">
+            <option value="center" selected>Center</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">
+        <span>Header Spacing (px)</span>
+        <input id="headerSpacing" type="number" min="0" placeholder="10" />
+      </label>
+
+      <div class="two-col">
+        <label class="field">
+          <span>Footer Text</span>
+          <input id="footerText" type="text" placeholder="Confidential" />
+        </label>
+        <label class="field">
+          <span>Footer Align</span>
+          <select id="footerAlign">
+            <option value="center" selected>Center</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">
+        <span>Footer Spacing (px)</span>
+        <input id="footerSpacing" type="number" min="0" placeholder="10" />
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Watermark & Render</h2>
+      <label class="field">
+        <span>Watermark Image URL</span>
+        <input id="watermarkUrl" type="url" placeholder="https://example.com/watermark.png" />
+      </label>
+      <div class="two-col">
+        <label class="field">
+          <span>Watermark Opacity (0-100)</span>
+          <input id="watermarkOpacity" type="number" min="0" max="100" placeholder="20" />
+        </label>
+        <label class="field">
+          <span>Watermark In Background</span>
+          <select id="watermarkInBackground">
+            <option value="0" selected>Foreground</option>
+            <option value="1">Background</option>
+          </select>
+        </label>
+      </div>
+      <div class="two-col">
+        <label class="field">
+          <span>Watermark Offset X (px)</span>
+          <input id="watermarkOffsetX" type="number" placeholder="15" />
+        </label>
+        <label class="field">
+          <span>Watermark Offset Y (px)</span>
+          <input id="watermarkOffsetY" type="number" placeholder="30" />
+        </label>
+      </div>
+      <div class="two-col">
+        <label class="field">
+          <span>Delay (ms)</span>
+          <input id="delay" type="number" min="10" max="20000" placeholder="1000" />
+        </label>
+        <label class="field">
+          <span>DPI</span>
+          <input id="dpi" type="number" min="10" max="10000" placeholder="96" />
+        </label>
+      </div>
+      <p class="help">Delay is in milliseconds (10-20000). DPI controls output sharpness.</p>
+    </section>
+
+    <section class="card wide">
+      <h2>Request Preview</h2>
+      <div class="request-preview" id="requestPreview"></div>
+      <div class="actions">
+        <button id="copyUrl" class="ghost" type="button">Copy Request</button>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>How It Works</h2>
+      <ol class="steps">
+        <li>Store your PDFlayer access key in <code>.env</code> for the proxy server.</li>
+        <li>Choose URL or HTML mode and configure PDF options.</li>
+        <li>Generate the PDF. The browser sends a request to the proxy, which calls PDFlayer.</li>
+      </ol>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "pdflayer-proxy",
+  "version": "1.0.0",
+  "description": "PDFlayer proxy server with frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0"
+  }
+}
